@@ -2,22 +2,19 @@ import React, { Component } from "react";
 import { 
     View,
     Text,
-    StyleSheet,
-    Button
+    StyleSheet
 } from "react-native";
 
-class LoginScreen extends Component {
+class Order extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>LoginScreen</Text>
-                <Button title='Register' onPress={() => this.props.navigation.navigate('register')} />
-                <Button title='Login' onPress={() => this.props.navigation.navigate('home')} />
+                <Text>Order</Text>
             </View>
         );
     }
 }
-export default LoginScreen;
+export default Order;
 
 const styles = StyleSheet.create({
     container: {
