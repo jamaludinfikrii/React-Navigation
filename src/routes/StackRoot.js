@@ -3,10 +3,10 @@ import React,{Component} from 'react'
 import { createStackNavigator,createAppContainer,createBottomTabNavigator,createMaterialTopTabNavigator } from 'react-navigation'
 import LoginScreen from '../screens/LoginScreen';
 import Register from '../screens/RegisterPage';
-import Pemesanan from '../screens/PemesananScree';
-import Order from '../screens/OrdersScreen';
+import Pemesanan from '../screens/EmployeeDetailScreen';
+import Order from '../screens/EditEmployeeScreen';
 import Menu from '../screens/MenuStack';
-import MobilScreen from '../screens/MobilScreen';
+import MobilScreen from '../screens/AddEmployeeScreen';
 
 const TopTabRiwayat = createMaterialTopTabNavigator({
     pemesanan : Pemesanan,

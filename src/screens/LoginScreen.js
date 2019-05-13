@@ -1,28 +1,51 @@
-import React, { Component } from "react";
-import { 
-    View,
-    Text,
-    StyleSheet,
-    Button
-} from "react-native";
+import React, { Component } from 'react';
+import { View } from 'react-native'
+import { Container, Header, Content, Form, Item, Input, Label , Body , Title , Button, Text} from 'native-base';
+import Icon from 'react-native-vector-icons/FontAwesome'
+export default class FloatingLabelExample extends Component {
+  render() {
+    return (
+      <Container>
+        <Header>
+                <Body>
+                    <Title style={{marginLeft : 15}}>Login</Title>
+                </Body>
+        </Header>
+        <Content>
+          <Form>
+            <Item floatingLabel>
+              <Label>Username</Label>
+              <Input />
+            </Item>
+            <Item floatingLabel last>
+              <Label>Password</Label>
+              <Input />
+            </Item>
+            <Button style={{marginTop : 20, marginHorizontal : 15}} block>
+                <Text>Login</Text>
+            </Button>
 
-class LoginScreen extends Component {
-    render() {
-        return (
-            <View style={styles.container}>
-                <Text>LoginScreen</Text>
-                <Button title='Register' onPress={() => this.props.navigation.navigate('register')} />
-                <Button title='Login' onPress={() => this.props.navigation.navigate('home')} />
+           
+
+            <View style={{flexDirection : 'row',justifyContent : 'center', marginTop : 15}}>
+                <View style={{height : 60 , width : 60 }}>
+                    <Icon name='facebook' size={40} />
+                </View>
+                <View style={{height : 60 , width : 60  }}>
+                    <Icon name='google' size={40} />
+                </View>
+                <View style={{height : 60 , width : 60  }}>
+                    <Icon name='twitter' size={40}/>
+                </View>
             </View>
-        );
-    }
-}
-export default LoginScreen;
+                
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
+            <View style={{flexDirection : 'row', justifyContent: "center", marginTop : 30}}>
+                <Text onPress={() => this.props.navigation.navigate('register')}>Belum Punya Akun? Register</Text>
+            </View>
+          </Form>
+        </Content>
+      </Container>
+    );
+  }
+}
