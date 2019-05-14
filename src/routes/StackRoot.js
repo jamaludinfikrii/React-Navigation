@@ -1,27 +1,37 @@
-import React,{Component} from 'react'
 
 import { createStackNavigator,createAppContainer,createBottomTabNavigator,createMaterialTopTabNavigator } from 'react-navigation'
 import LoginScreen from '../screens/LoginScreen';
 import Register from '../screens/RegisterPage';
-import Pemesanan from '../screens/EmployeeDetailScreen';
-import Order from '../screens/EditEmployeeScreen';
+import EmployeeDetail from '../screens/EmployeeDetailScreen';
+import MenuAccountSetting from '../screens/MenuAccountSetting'
+import EditEmployeeScreen from '../screens/EditEmployeeScreen';
 import Menu from '../screens/MenuStack';
-import MobilScreen from '../screens/AddEmployeeScreen';
+import AddEmployeeScreen from '../screens/AddEmployeeScreen';
+import ListEmployeeScreen from '../screens/ListEmployeeScreen'
 
-const TopTabRiwayat = createMaterialTopTabNavigator({
-    pemesanan : Pemesanan,
-    orders : Order
+const AccountSetting = createStackNavigator({
+    menu : MenuAccountSetting,
+
 })
 
 const StackBeranda = createStackNavigator({
     MenuStack : Menu,
-    Mobil : MobilScreen,
+    add : AddEmployeeScreen,
+    edit : EditEmployeeScreen,
+    list : ListEmployeeScreen,
+    detail : EmployeeDetail
 
+}, {
+    headerMode : 'none'
 })
 
-const HomeTab = createBottomTabNavigator({
-    beranda : StackBeranda,
-    riwayat : TopTabRiwayat
+const HomeTab = createMaterialTopTabNavigator({
+    home : StackBeranda,
+    account : AccountSetting
+} , 
+{
+    tabBarPosition : 'bottom',
+    swipeEnabled : false
 }) 
 
 const StackRoot = createStackNavigator({

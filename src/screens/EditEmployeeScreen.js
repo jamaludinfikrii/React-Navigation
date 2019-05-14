@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { View } from 'react-native'
 import {Text ,Container, Header, Content, Form, Item, Input, Label,Button ,Picker,Left,Right } from 'native-base';
 export default class FloatingLabelExample extends Component {
-    state = {selected : 'Monday',data : {
-        1 : {nama : 'Fikri' , shift : 'Tue' , telp : '082227492381'},
-        2 : {nama : 'Seto' , shift : 'Wed' , telp : '082227492381'},
-        3 : {nama : 'Andi' , shift : 'Sat' ,telp : '082227492381'},
-        4 : {nama : 'Steve' , shift : 'Sun', telp : '082227492381'},
-    } , idEdit : null}
+    state = {
+        selected : 'Monday',
+        data : {
+          1 : {nama : 'Fikri' , shift : 'Tue' , telp : '082227492381'},
+          2 : {nama : 'Seto' , shift : 'Wed' , telp : '082227492381'},
+          3 : {nama : 'Andi' , shift : 'Sat' ,telp : '082227492381'},
+          4 : {nama : 'Steve' , shift : 'Sun', telp : '082227492381'},
+        } , 
+        idEdit : null}
   render() {
     return (
       <Container>
@@ -18,7 +21,11 @@ export default class FloatingLabelExample extends Component {
                     <Text> Select Data </Text>
                 </View>
                 <View>
-                    <Picker style={{width : 200}} mode ='dropdown' selectedValue={this.state.idEdit} >
+                    <Picker 
+                    style={{width : 200}} 
+                    mode ='dropdown' 
+                    selectedValue={this.state.idEdit}
+                    onValueChange={(val) => this.setState({idEdit : val}) } >
                         <Picker.Item label='Select Name' value={null} />
                         {
                             Object.keys(this.state.data).map(val => {
@@ -31,15 +38,15 @@ export default class FloatingLabelExample extends Component {
                 </View>
             </View>
           <Form>
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>Nama</Label>
-              <Input />
+              <Input defaultValue={this.state.idEdit ? this.state.data[this.state.idEdit].nama : null} />
             </Item>
-            <Item floatingLabel last>
+            <Item stackedLabel>
               <Label>Phone</Label>
-              <Input />
+              <Input  defaultValue={this.state.idEdit ? this.state.data[this.state.idEdit].telp : null} />
             </Item>
-            <Item>
+            <Item last>
                 <Left>
                     <Label>Select Day</Label>
                 </Left>
@@ -47,13 +54,15 @@ export default class FloatingLabelExample extends Component {
                     <Picker 
                         style={{ width:120}}  
                         mode="dropdown"
-                        selectedValue={this.state.selected}
+                        selectedValue={this.state.idEdit? this.state.data[this.state.idEdit].shift : this.state.selected}
                         onValueChange={(value) => this.setState({selected : value})}>
-                    <Picker.Item label='Monday' value='Monday' />
-                    <Picker.Item label='Tuesday' value='Tuesday' />
-                    <Picker.Item label='Wednesday' value='Wednesday' />
-                    <Picker.Item label='Thursday' value='Thursday' />
-                    <Picker.Item label='Friday' value='Friday' />
+                    <Picker.Item label='Monday' value='Mon' />
+                    <Picker.Item label='Tuesday' value='Tue' />
+                    <Picker.Item label='Wednesday' value='Wed' />
+                    <Picker.Item label='Thursday' value='Thu' />
+                    <Picker.Item label='Friday' value='Fri' />
+                    <Picker.Item label='Saturday' value='Sat' />
+                    <Picker.Item label='Sunday' value='Sun' />
                     </Picker>
                 </Right>
             </Item>

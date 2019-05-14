@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { View } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Label , Body , Title , Button, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'
-export default class FloatingLabelExample extends Component {
+import {connect} from 'react-redux'
+class LoginScreen extends Component {
   render() {
     return (
       <Container>
         <Header>
                 <Body>
-                    <Title style={{marginLeft : 15}}>Login</Title>
+                    <Title style={{marginLeft : 15}}>{this.props.bebas}</Title>
                 </Body>
         </Header>
         <Content>
@@ -49,3 +50,12 @@ export default class FloatingLabelExample extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return{
+    bebas : state.auth.email
+  }
+}
+
+
+
+export default connect(mapStateToProps)(LoginScreen)
