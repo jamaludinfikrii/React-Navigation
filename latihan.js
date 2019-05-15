@@ -1,12 +1,5 @@
 
-const obj = (a,b,c) => {
-    return{
-        a : {
-            nama : b,
-            shift : c
-        }
-    }
-}
 
-
-console.log(obj(1,'fikri','tue'))
+Duplicate(['a','b','e','b','a'])  // b
+Duplicate(['c','a','e','b','a'])  // a
+Duplicate(['c','a','e','b','q'])  // null

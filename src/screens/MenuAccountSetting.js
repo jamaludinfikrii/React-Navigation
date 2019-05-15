@@ -2,14 +2,27 @@ import React, { Component } from "react";
 import { 
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Button
 } from "react-native";
+import { Fire } from './../support/firebase'
 
 class MenuAccountSetting extends Component {
+    onLogOutPress = () => {
+        // this.props.navigation.navigate('login')
+        Fire.auth().signOut()
+        .then((val) => {
+            console.log(val)
+            this.props.navigation.navigate('login')
+        } )
+        .catch((err) => console.log(err))
+    }
     render() {
         return (
             <View style={styles.container}>
-                <Text>MenuAccountSetting</Text>
+                <Button title='Log Out' onPress={this.onLogOutPress}>
+                    
+                </Button>
             </View>
         );
     }

@@ -1,19 +1,46 @@
 import React, { Component } from 'react';
-import { View } from 'react-native'
+import { View , ActivityIndicator} from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Label , Body , Title , Button,Icon, Text} from 'native-base';
 import { Fire } from './../support/firebase'
-export default class FloatingLabelExample extends Component {
-  state = {pass : '' , confirm : ''}
+import { onLoginSuccess } from './../2.actions'
+import {StackActions,NavigationActions} from 'react-navigation'
+import { connect } from 'react-redux'
+
+class RegisterScreen extends Component {
+  state = {pass : '' , confirm : '',loading : false, error : ''}
+
+  componentDidUpdate(){
+    if(this.props.user.email){
+      const resetAction = StackActions.reset({
+        index : 0,
+        actions : [NavigationActions.navigate({routeName : 'home'})]
+      })
+      this.props.navigation.dispatch(resetAction)
+    }
+  }
 
   onBtnRegisterClick = () => {
-    const auth = Fire.auth()
-    auth.createUserWithEmailAndPassword(this.inputEmail,this.state.pass)
-    .then((val) => {
-      console.log(val.user.ui)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    if(this.inputEmail && this.state.confirm && this.state.pass){
+      if(this.state.pass == this.state.confirm){
+        this.setState({loading : true})
+        const auth = Fire.auth()
+        auth.createUserWithEmailAndPassword(this.inputEmail,this.state.pass)
+        .then((val) => {
+          var {uid,email} = val.user
+          console.log(uid)
+          this.props.onLoginSuccess(email,uid)
+        })
+        .catch((err) => {
+            this.setState({error : err.message , loading : false})
+        })
+      }else{
+        this.setState({error : 'Password and confirm tidak sama'})
+      }
+      
+    }else{
+      this.setState({error : 'Isi Semua !!'})
+    }
+    
   }
   render() {
     const confirm = this.state.confirm == "" ? 
@@ -51,12 +78,31 @@ export default class FloatingLabelExample extends Component {
             </Item>
             {confirm}
             <Button style={{marginTop : 20, marginHorizontal : 15}} onPress={this.onBtnRegisterClick} block>
-                <Text>Register</Text>
+                {
+                  this.state.loading 
+                  ? 
+                  <ActivityIndicator size="small" color="white" />
+                  : 
+                  <Text>Register</Text>
+                }
             </Button>
 
             <View style={{flexDirection : 'row', justifyContent: "center", marginTop : 30}}>
                 <Text onPress={() => this.props.navigation.navigate('login')}>Sudah Punya Akun? Login</Text>
             </View>
+
+            { 
+            this.state.error 
+            ?
+            <View style={{paddingVertical : 15, backgroundColor : 'red',marginHorizontal : 15 }}>
+              <View style={{position : 'absolute' , top : 3, right:3}}>
+                <Icon name='close-circle' fontSize={7} color='white' onPress={() => this.setState({error : ''})} />
+              </View>
+              <Text style={{color : 'white',alignSelf : 'center'}}>{this.state.error}</Text>
+            </View>
+            :
+            null
+            }
                 
           </Form>
         </Content>
@@ -64,3 +110,19 @@ export default class FloatingLabelExample extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return{
+    user : state.auth
+  }
+}
+
+export default connect(mapStateToProps , {onLoginSuccess})(RegisterScreen);
+
+
+
+
+
+
+
+
+

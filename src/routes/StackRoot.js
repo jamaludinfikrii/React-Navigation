@@ -25,6 +25,19 @@ const StackBeranda = createStackNavigator({
     headerMode : 'none'
 })
 
+StackBeranda.navigationOptions = ({navigation}) => {
+    let tabBarVisible = false
+
+    let routeName = navigation.state.routes[navigation.state.index].routeName
+    if(routeName == 'MenuStack'){
+        tabBarVisible = true
+    }
+    return {
+        tabBarVisible
+    }
+     
+}
+
 const HomeTab = createMaterialTopTabNavigator({
     home : StackBeranda,
     account : AccountSetting

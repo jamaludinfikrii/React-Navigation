@@ -5,10 +5,10 @@ import { Container, Header, Content, List, ListItem, Text,Left , Right } from 'n
 
 export default class ListEmployee extends Component {
     state = { data : {
-        1 : {nama : 'Fikri' , shift : 'Tue'},
-        2 : {nama : 'Seto' , shift : 'Wed'},
-        3 : {nama : 'Andi' , shift : 'Sat'},
-        4 : {nama : 'Steve' , shift : 'Sun'},
+        1 : {nama : 'Fikri' , shift : 'Tue', phone : '082226840026'},
+        2 : {nama : 'Seto' , shift : 'Wed', phone : '082223440026'},
+        3 : {nama : 'Andi' , shift : 'Sat', phone : '082226123026'},
+        4 : {nama : 'Steve' , shift : 'Sun', phone : '082226843456'},
     }   
     }
   render() {
@@ -19,7 +19,11 @@ export default class ListEmployee extends Component {
           <List>
             { Object.keys(this.state.data).map(val => {
                 return(
-                    <ListItem>
+                    <ListItem onPress={() => this.props.navigation.navigate('detail',{
+                      nama : this.state.data[val].nama,
+                      shift : this.state.data[val].shift,
+                      phone : this.state.data[val].phone
+                    })}>
                         <Left>
                             <Text>{this.state.data[val].nama}</Text>
                         </Left>
