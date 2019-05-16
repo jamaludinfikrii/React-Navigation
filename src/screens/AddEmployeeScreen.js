@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
 import {Text ,Container, Header, Content, Form, Item, Input, Label,Button ,Picker,Left,Right } from 'native-base';
-export default class FloatingLabelExample extends Component {
+import { Fire } from './../support/firebase'
+import {connect} from 'react-redux'
+class AddEmployee extends Component {
     state = {selected : 'Monday'}
+    onBtnAddClick = () => {
+      var nama = this.inputNama
+      var phone = this.inputPhone
+      var shift = this.state.selected
+      var id = this.props.id
+      Fire.database().ref('manager/users/' + id+'/employee').push({
+        nama,phone,shift
+      })
+      .then((val) => {
+        alert('Data Masuk')
+      })
+      .catch((err) => console.log(err))
+    }
   render() {
     return (
       <Container>
@@ -10,11 +25,11 @@ export default class FloatingLabelExample extends Component {
           <Form>
             <Item floatingLabel>
               <Label>Nama</Label>
-              <Input />
+              <Input onChangeText={(text) => this.inputNama = text} />
             </Item>
             <Item floatingLabel last>
               <Label>Phone</Label>
-              <Input />
+              <Input onChangeText={(text) => this.inputPhone = text} />
             </Item>
             <Item>
                 <Left>
@@ -34,7 +49,7 @@ export default class FloatingLabelExample extends Component {
                     </Picker>
                 </Right>
             </Item>
-            <Button style={{marginTop : 20, marginHorizontal : 15}} block>
+            <Button onPress={this.onBtnAddClick} style={{marginTop : 20, marginHorizontal : 15}} block>
                 <Text>Add Employee</Text>
             </Button>
           </Form>
@@ -43,3 +58,12 @@ export default class FloatingLabelExample extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  var {id} = state.auth
+  return{
+    id : id
+  }
+}
+
+export default connect(mapStateToProps)(AddEmployee);

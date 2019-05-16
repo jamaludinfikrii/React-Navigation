@@ -1,10 +1,42 @@
 import React, { Component } from 'react';
-import { View } from 'react-native'
+import { View , ActivityIndicator } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Label , Body , Title , Button, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {connect} from 'react-redux'
+import {Fire} from './../support/firebase'
+import {StackActions , NavigationActions} from 'react-navigation'
+import { onLoginSuccess } from './../2.actions'
 class LoginScreen extends Component {
+  state ={loading : true}
+
+  componentDidUpdate(){
+    if(this.props.bebas){
+      const stackReset = StackActions.reset({
+        index : 0,
+        actions : [NavigationActions.navigate({routeName : 'home'})]          
+      })
+      this.props.navigation.dispatch(stackReset)
+      this.setState({loading : false})
+    }
+  }
+
+  componentDidMount(){
+    Fire.auth().onAuthStateChanged((user) => {
+      if(user){
+        this.props.onLoginSuccess(user.email,user.uid)
+      }else{
+        this.setState({loading : false})
+      }
+    })
+  }
   render() {
+    if(this.state.loading){
+      return(
+        <View style={{flex : 1 , justifyContent : 'center', alignContent : 'center'}}>
+          <ActivityIndicator size='large' color='black' />
+        </View>
+      )
+    }
     return (
       <Container>
         <Header>
@@ -58,4 +90,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps)(LoginScreen)
+export default connect(mapStateToProps,{onLoginSuccess})(LoginScreen)
